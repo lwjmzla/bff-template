@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: PROJECT
+  namespace: NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: PROJECT
+  template:
+    metadata:
+      labels:
+        app: PROJECT
+    spec:
+      imagePullSecrets:
+      - name: harbor-secret
+      containers:
+      - name: PROJECT
+        image: ImageName
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7000
+        volumeMounts:
+        - name: PROJECT-config-file
+          mountPath: /app/nacos.yaml
+          subPath: nacos.conf
+      volumes:
+      - name: PROJECT-config-file
+        configMap:
+          name: PROJECT-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: PROJECT-svc
+  namespace: NAMESPACE
+spec:
+  selector:
+      app: PROJECT
+  ports:
+    - name: http
+      protocol: TCP
+      port: 7000
+      targetPort: 7000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: PROJECT-config
+  namespace: NAMESPACE
+data:
+  nacos.yaml: |+
+    nacos:
+      address: 172.16.0.133:8848
+      username: NSUSER
+      password: NSPASSWD
+
+
+

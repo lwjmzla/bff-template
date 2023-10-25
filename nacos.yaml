@@ -1,0 +1,12 @@
+
+nacos:
+  address: '172.16.0.133:8848'
+  username: 'develop'
+  password: '5seO3l0ZCpi6'
+  namespace: 'test'
+
+# nacos:
+#   address: '192.168.1.210:8848'
+#   username: 'nacos'
+#   password: 'nacos'
+#   namespace: 'test'
