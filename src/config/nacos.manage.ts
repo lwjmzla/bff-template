@@ -48,7 +48,6 @@ export class NacosManager {
     const content_yaml = await this.client.getConfig(this.DATA_ID, this.GROUP);
     const content = yaml.load(content_yaml) || {};
     console.log('[Nacos Config]', content)
-    process.env.NACOS_SYSTEM = content.system || 'gameco' // !'gameco' 或者 'csn'
     const port = content.port || 7000
     await this.namingClient.ready();
     if (process.env.NODE_ENV === 'development') {
